@@ -15,7 +15,7 @@
         </div>
 
         <div class="task-list-table-head">
-            <div class="task-list-header-task-name">Task Name</div>
+            <div class="task-list-header-task-name">Task Name Testing</div>
             <div class="task-list-header-detail">Detail</div>
             <div class="task-list-header-due-date">Due Date</div>
             <div class="task-list-header-progress">Progress</div>
