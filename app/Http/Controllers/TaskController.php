@@ -25,11 +25,31 @@ class TaskController extends Controller
     public function edit($id)
     {
         $pageTitle = 'Edit Task';
-        $tasks     = Task::find($id);;
-
-        $task = $tasks[$id - 1];
+        $task      = Task::find($id);
 
         return view('tasks.edit', ['pageTitle' => $pageTitle, 'task' => $task]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'name'     => 'required',
+                'due_date' => 'required',
+                'status'   => 'required',
+            ],
+            $request->all()
+        );
+
+        $task = Task::find($id);
+        $task->update([
+            'name'     => $request->name,
+            'detail'   => $request->detail,
+            'due_date' => $request->due_date,
+            'status'   => $request->status,
+        ]);
+
+        return redirect()->route('tasks.index');
     }
 
     public function create()
