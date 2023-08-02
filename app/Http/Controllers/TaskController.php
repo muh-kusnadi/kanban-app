@@ -52,10 +52,10 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function create()
+    public function create($status = null)
     {
         $pageTitle = 'Add Task';
-        return view('tasks.create', ['pageTitle' => $pageTitle]);
+        return view('tasks.create', ['pageTitle' => $pageTitle, 'status' => $status]);
     }
 
     public function store(Request $request)

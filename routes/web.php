@@ -24,7 +24,7 @@ Route::prefix('tasks')
     ->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
-        Route::get('create', 'create')->name('create');
+        Route::get('create/{status?}', 'create')->name('create');
         Route::get('progress', 'progress')->name('progress');
 
         Route::put('{id}/update', 'update')->name('update');
