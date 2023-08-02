@@ -24,10 +24,20 @@
         @foreach ($tasks as $index => $task)
             <div class="table-body">
                 <div class="table-body-task-name">
-                    <span
-                        class="material-icons @if ($task->status == 'completed') check-icon-completed @else check-icon @endif">
-                        check_circle
-                    </span>
+                    @if ($task->status == 'completed')
+                        <span class="material-icons check-icon-completed">
+                            check_circle
+                        </span>
+                    @else
+                        <form action="{{ route('tasks.move', ['id' => $task->id, 'status' => 'completed', 'from-index' => true]) }}"
+                            method="POST" id="set-complete">
+                            @csrf
+                            @method('patch')
+                            <span class="material-icons check-icon" onclick="document.getElementById('set-complete').submit()">
+                                check_circle
+                            </span>
+                        </form>
+                    @endif
                     {{ $task->name }}
                 </div>
                 <div class="table-body-detail"> {{ $task->detail }} </div>

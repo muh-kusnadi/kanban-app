@@ -132,6 +132,10 @@ class TaskController extends Controller
             'status' => $request->status,
         ]);
 
+        if ($request->has('from-index') && $request->get('from-index')) {
+            return redirect()->route('tasks.index');
+        }
+
         return redirect()->route('tasks.progress');
     }
 }
