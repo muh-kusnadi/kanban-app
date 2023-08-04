@@ -24,6 +24,8 @@ Route::name('auth.')
     ->group(function () {
         Route::get('signup', 'signupForm')->name('signupForm');
         Route::post('signup', 'signup')->name('signup');
+        Route::get('login', 'loginForm')->name('loginForm');
+        Route::post('login', 'login')->name('login');
     });
 
 Route::prefix('tasks')
