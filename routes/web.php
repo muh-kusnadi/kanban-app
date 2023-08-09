@@ -15,9 +15,9 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home')->middleware('auth');
+Route::get('/', [TaskController::class, 'home'])
+    ->name('home')
+    ->middleware('auth');
 
 Route::name('auth.')
     ->controller(AuthController::class)

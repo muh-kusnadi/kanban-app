@@ -3,10 +3,12 @@
         @if ($task->status == 'completed')
             <div class="material-icons task-progress-card-top-checked">check_circle</div>
         @else
-            <form action="{{ route('tasks.move', ['id' => $task->id, 'status' => 'completed']) }}" method="POST" id="set-complete">
+            <form action="{{ route('tasks.move', ['id' => $task->id, 'status' => 'completed']) }}" method="POST"
+                id="set-complete">
                 @csrf
                 @method('patch')
-                <div class="material-icons task-progress-card-top-check" onclick="document.getElementById('set-complete').submit()">check_circle</div>
+                <div class="material-icons task-progress-card-top-check"
+                    onclick="document.getElementById('set-complete').submit()">check_circle</div>
             </form>
         @endif
         <a href="{{ route('tasks.edit', ['id' => $task->id]) }}"
@@ -18,6 +20,9 @@
     </div>
     <div>
         <p>Due on {{ $task->due_date }}</p>
+    </div>
+    <div>
+        <p>Owner: <strong>{{ $task->user->name }}</strong></p>
     </div>
     <div class="@if ($leftStatus) task-progress-card-left @else task-progress-card-right @endif">
         @if ($leftStatus)
