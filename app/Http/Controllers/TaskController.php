@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -43,7 +44,9 @@ class TaskController extends Controller
     public function edit($id)
     {
         $pageTitle = 'Edit Task';
-        $task      = Task::find($id);
+        $task      = Task::findOrFail($id);
+
+        Gate::authorize('update', $task);
 
         return view('tasks.edit', ['pageTitle' => $pageTitle, 'task' => $task]);
     }
@@ -59,7 +62,10 @@ class TaskController extends Controller
             $request->all()
         );
 
-        $task = Task::find($id);
+        $task = Task::findOrFail($id);
+
+        Gate::authorize('update', $task);
+
         $task->update([
             'name'     => $request->name,
             'detail'   => $request->detail,
@@ -101,14 +107,19 @@ class TaskController extends Controller
     public function delete($id)
     {
         $pageTitle = 'Delete Task';
-        $task      = Task::find($id);
+        $task      = Task::findOrFail($id);
+
+        Gate::authorize('delete', $task);
 
         return view('tasks.delete', ['pageTitle' => $pageTitle, 'task' => $task]);
     }
 
     public function destroy($id)
     {
-        $task = Task::find($id);
+        $task = Task::findOrFail($id);
+
+        Gate::authorize('delete', $task);
+
         $task->delete();
 
         return redirect()->route('tasks.index');
@@ -150,6 +161,8 @@ class TaskController extends Controller
     public function move(int $id, Request $request)
     {
         $task = Task::findOrFail($id);
+
+        Gate::authorize('delete', $task);
 
         $task->update([
             'status' => $request->status,

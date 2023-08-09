@@ -30,11 +30,13 @@
                             check_circle
                         </span>
                     @else
-                        <form action="{{ route('tasks.move', ['id' => $task->id, 'status' => 'completed', 'from-index' => true]) }}"
+                        <form
+                            action="{{ route('tasks.move', ['id' => $task->id, 'status' => 'completed', 'from-index' => true]) }}"
                             method="POST" id="set-complete">
                             @csrf
                             @method('patch')
-                            <span class="material-icons check-icon" onclick="document.getElementById('set-complete').submit()">
+                            <span class="material-icons check-icon"
+                                onclick="document.getElementById('set-complete').submit()">
                                 check_circle
                             </span>
                         </form>
@@ -62,8 +64,14 @@
                     @endswitch
                 </div>
                 <div class="table-body-owner-name">{{ $task->user->name }}</div>
-                <a href="{{ route('tasks.edit', ['id' => $task->id]) }}">Edit</a> &nbsp;
-                <a href="{{ route('tasks.delete', ['id' => $task->id]) }}">Delete</a>
+                <div class="table-body-links">
+                    @can('update', $task)
+                        <a href="{{ route('tasks.edit', ['id' => $task->id]) }}">Edit</a>
+                    @endcan
+                    @can('delete', $task)
+                        <a href="{{ route('tasks.delete', ['id' => $task->id]) }}">Delete</a>
+                    @endcan
+                </div>
             </div>
         @endforeach
     </div>
