@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
 
 /*
@@ -16,10 +17,26 @@ use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
     return view('home');
-})->name('home');
+})->name('home')->middleware('auth');
+
+Route::name('auth.')
+    ->controller(AuthController::class)
+    ->group(function () {
+        Route::middleware('guest')->group(function () {
+            Route::get('signup', 'signupForm')->name('signupForm');
+            Route::post('signup', 'signup')->name('signup');
+            Route::get('login', 'loginForm')->name('loginForm');
+            Route::post('login', 'login')->name('login');
+        });
+
+        Route::middleware('auth')->group(function () {
+            Route::post('logout', 'logout')->name('logout');
+        });
+    });
 
 Route::prefix('tasks')
     ->name('tasks.')
+    ->middleware('auth')
     ->controller(TaskController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
