@@ -4,11 +4,11 @@
             <div class="material-icons task-progress-card-top-checked">check_circle</div>
         @else
             <form action="{{ route('tasks.move', ['id' => $task->id, 'status' => 'completed']) }}" method="POST"
-                id="set-complete">
+                id="set-complete-{{ $task->id }}">
                 @csrf
                 @method('patch')
                 <div class="material-icons task-progress-card-top-check"
-                    onclick="document.getElementById('set-complete').submit()">check_circle</div>
+                    onclick="document.getElementById('set-complete-{{ $task->id }}').submit()">check_circle</div>
             </form>
         @endif
         <a href="{{ route('tasks.edit', ['id' => $task->id]) }}"

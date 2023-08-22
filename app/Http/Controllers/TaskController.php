@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
-    public function __construct()
-    {
-    }
-
     public function home()
     {
         $tasks = Task::where('user_id', auth()->id())->get();
@@ -46,7 +42,9 @@ class TaskController extends Controller
         $pageTitle = 'Edit Task';
         $task      = Task::findOrFail($id);
 
-        Gate::authorize('update', $task);
+        if (Gate::denies('performAsTaskOwner', $task)) {
+            Gate::authorize('updateAnyTask', Task::class);
+        }
 
         return view('tasks.edit', ['pageTitle' => $pageTitle, 'task' => $task]);
     }
@@ -64,7 +62,9 @@ class TaskController extends Controller
 
         $task = Task::findOrFail($id);
 
-        Gate::authorize('update', $task);
+        if (Gate::denies('performAsTaskOwner', $task)) {
+            Gate::authorize('updateAnyTask', Task::class);
+        }
 
         $task->update([
             'name'     => $request->name,
@@ -109,7 +109,9 @@ class TaskController extends Controller
         $pageTitle = 'Delete Task';
         $task      = Task::findOrFail($id);
 
-        Gate::authorize('delete', $task);
+        if (Gate::denies('performAsTaskOwner', $task)) {
+            Gate::authorize('deleteAnyTask', Task::class);
+        }
 
         return view('tasks.delete', ['pageTitle' => $pageTitle, 'task' => $task]);
     }
@@ -118,7 +120,9 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        Gate::authorize('delete', $task);
+        if (Gate::denies('performAsTaskOwner', $task)) {
+            Gate::authorize('deleteAnyTask', Task::class);
+        }
 
         $task->delete();
 
@@ -162,7 +166,9 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        Gate::authorize('delete', $task);
+        if (Gate::denies('performAsTaskOwner', $task)) {
+            Gate::authorize('updateAnyTask', Task::class);
+        }
 
         $task->update([
             'status' => $request->status,
