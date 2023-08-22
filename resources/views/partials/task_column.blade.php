@@ -5,11 +5,13 @@
     </div>
     <div>
         @foreach ($tasks as $task)
-            @include('partials.task_card', [
-                'task' => $task,
-                'leftStatus' => $leftStatus,
-                'rightStatus' => $rightStatus,
-            ])
+            @if (Gate::any(['updateAnyTask', 'performAsTaskOwner'], $task))
+                @include('partials.task_card', [
+                    'task' => $task,
+                    'leftStatus' => $leftStatus,
+                    'rightStatus' => $rightStatus,
+                ])
+            @endif
         @endforeach
     </div>
 </div>
