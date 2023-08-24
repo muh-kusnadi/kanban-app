@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TaskFileController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -39,19 +40,28 @@ Route::name('auth.')
 Route::prefix('tasks')
     ->name('tasks.')
     ->middleware('auth')
-    ->controller(TaskController::class)
     ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('create/{status?}', 'create')->name('create');
-        Route::get('progress', 'progress')->name('progress');
+        Route::controller(TaskController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('create/{status?}', 'create')->name('create');
+            Route::get('progress', 'progress')->name('progress');
 
-        Route::put('{id}/update', 'update')->name('update');
-        Route::get('{id}/delete', 'delete')->name('delete');
-        Route::get('{id}/edit', 'edit')->name('edit');
-        Route::patch('{id}/move', 'move')->name('move');
-        Route::delete('{id}/destroy', 'destroy')->name('destroy');
+            Route::put('{id}/update', 'update')->name('update');
+            Route::get('{id}/delete', 'delete')->name('delete');
+            Route::get('{id}/edit', 'edit')->name('edit');
+            Route::patch('{id}/move', 'move')->name('move');
+            Route::delete('{id}/destroy', 'destroy')->name('destroy');
+        });
 
+        Route::prefix('{task_id}/files')
+            ->name('files.')
+            ->controller(TaskFileController::class)
+            ->group(function () {
+                Route::post('store', 'store')->name('store');
+                Route::get('{id}/show', 'show')->name('show');
+                Route::delete('{id}/destroy', 'destroy')->name('destroy');
+            });
     });
 
 Route::prefix('roles')

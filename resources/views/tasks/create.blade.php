@@ -5,11 +5,11 @@
 @section('main')
     <div class="form-container">
         <h1 class="form-title">{{ $pageTitle }}</h1>
-        <form class="form" action="{{ route('tasks.store') }}" method="POST">
+        <form class="form" action="{{ route('tasks.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-item">
                 <label>Name:</label>
-                <input class="form-input" type="text" value="{{ old('name') }}" name="name">
+                <input class="form-input" type="text" value="{{ old('name') }}" name="name" autocomplete="off">
                 @error('name')
                     <div class="alert-danger">{{ $message }}</div>
                 @enderror
@@ -34,12 +34,21 @@
             <div class="form-item">
                 <label>Progress:</label>
                 <select class="form-input" name="status">
-                    <option value="not_started" @if($status == 'not_started') selected @endif>Not Started</option>
-                    <option value="in_progress" @if($status == 'in_progress') selected @endif>In Progress</option>
-                    <option value="in_review" @if($status == 'in_review') selected @endif>Waiting/In Review</option>
-                    <option value="completed" @if($status == 'completed') selected @endif>Completed</option>
+                    <option value="not_started" @if ($status == 'not_started') selected @endif>Not Started</option>
+                    <option value="in_progress" @if ($status == 'in_progress') selected @endif>In Progress</option>
+                    <option value="in_review" @if ($status == 'in_review') selected @endif>Waiting/In Review</option>
+                    <option value="completed" @if ($status == 'completed') selected @endif>Completed</option>
                 </select>
                 @error('status')
+                    <div class="alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-item">
+                <label>File:</label>
+                <input class="form-input" type="file" value="{{ old('file') }}" name="file">
+
+                @error('file')
                     <div class="alert-danger">{{ $message }}</div>
                 @enderror
             </div>
