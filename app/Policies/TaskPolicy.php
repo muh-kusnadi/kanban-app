@@ -40,7 +40,7 @@ class TaskPolicy
     {
         $permissions = $this->getUserPermissions($user);
 
-        if ($permissions->contains('view-any-task')) {
+        if ($permissions->contains('view-any-tasks')) {
             return true;
         }
 

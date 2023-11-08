@@ -29,7 +29,7 @@ class RolePolicy
     {
         $permissions = $this->getUserPermissions($user);
 
-        if ($permissions->contains('view-all-role')) {
+        if ($permissions->contains('view-any-roles')) {
             return true;
         }
 
